@@ -1,0 +1,22 @@
+{
+  "name": "conversor-nodejs",
+  "version": "1.0.0",
+  "description": "Voc� dever� implementar uma API Rest que seja capaz de realizar a convers�o entre duas moedas\r utilizando taxas de convers�es atualizadas de um servi�o externo.",
+  "main": "app.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://ViniciusR_@bitbucket.org/recrutamento_jya_nodejs/recrutamento-conversor-nodejs-vinicius.rmoraes_hotmail.com.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "homepage": "https://bitbucket.org/recrutamento_jya_nodejs/recrutamento-conversor-nodejs-vinicius.rmoraes_hotmail.com#readme",
+  "dependencies": {
+    "express": "^4.17.1",
+    "jsonwebtoken": "^8.5.1",
+    "node-fetch": "^2.6.1",
+    "sqlite3": "^5.0.0"
+  }
+}
