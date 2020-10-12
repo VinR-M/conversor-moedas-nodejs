@@ -1,23 +1,27 @@
 const jwt = require('jsonwebtoken')
 const fetch = require('node-fetch')
 const db = require('../model/Conversion')
+
 module.exports = (app) => {
 
-	// https://api.exchangeratesapi.io/latest?base=USD&symbols=USD   BRL, USD, EUR, JPY
+	app.get('/conversion/all', verifyToken, (req, res) => {
+		jwt.verify(req.token, 'sKey', (err, authData) => {
+			if(err) res.sendStatus(403)	
 
-	app.get('/conversion/all', (req, res) => {
-
-		db.all("SELECT * FROM conversions", (err, results) => {
+			db.all("SELECT * FROM conversions WHERE UserID = '"+ req.token +"'", (err, results) => {
 	
-			res.json({
-				results: results
+				res.json({
+					results: results
+				})
 			})
 		})
-
 	})	
 
-	app.get('/conversion', (req, res) => {	
-		
+	app.get('/conversion', verifyToken, (req, res) => {	
+
+		jwt.verify(req.token, 'sKey', (err, authData) => {
+			if(err) res.sendStatus(403)	
+
 			try {	
 				const OriginCurrency=  req.query.OriginCurrency
 				const TargetCurrency=  req.query.TargetCurrency
@@ -28,42 +32,29 @@ module.exports = (app) => {
 				.then(result => {return result.json()}) 
 				.then(data => {return rates = data.rates[TargetCurrency]})
 
-				const TargetValue = OriginValue * rates
+				let ConversionRates = rates
+
+				const TargetValue = OriginValue * ConversionRates
 				const date = new Date(new Date().toUTCString())
 				
 				// DB Query
-				db.insertConversion("eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjp7ImlkIjoxLCJ1c2VybmFtZSI6IlRlc3QiLCJlbWFpbCI6InRlc3RAdGVzdC5jb20ifSwiaWF0IjoxNjAyNTEwMjkwfQ.gYYt-3CktBEQr3792lXyIJilrlMjQLaJCQ8v6HcvL08",
-				OriginCurrency, OriginValue, TargetCurrency, rates, date );
+				db.insertConversion(req.token, OriginCurrency, OriginValue, TargetCurrency, ConversionRates, date );
 
 				res.status(200).json({
+					UserID: req.token,
 					OriginCurrency,
 					OriginValue,
 					TargetCurrency,
 					ConvertedValue: TargetValue,
-					ConversionRate: rates,
-					DateTimeUTC: date
-					
-				})
-				
-			} catch {
-				res.sendStatus(404)
-			}
-	})
-
-	app.post('/conversionSafe', verifyToken, (req, res) => {
-		jwt.verify(req.token, 'sKey', (err, authData) => {
-
-			try {	
-				res.json({
-					message: 'Success',
-					authData
-				})
-				
-			} catch {
-				res.sendStatus(403)
-			}			
+					ConversionRates,
+					DateTimeUTC: date					
+				})				
+			} 
+			
+			catch {
+				res.sendStatus(400)
+			}					
 		})
-	
 	})
 
 	

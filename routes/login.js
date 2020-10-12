@@ -1,9 +1,10 @@
+const jwt = require('jsonwebtoken')
+
 module.exports = (app) => {
 	app.post('/login', (req, res) => {
 		const user = {
-			id: 1,
-			username: 'Test',
-			email: 'test@test.com'
+			username: req.body.username,
+			email: req.body.username
 		}
 	
 		jwt.sign({user: user}, 'sKey', (err, token) => {

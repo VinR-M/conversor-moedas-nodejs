@@ -7,8 +7,7 @@
 	 
 		db.createConversionDB = () => {
 			db.run("CREATE TABLE conversions (TransactionID integer primary key , UserId varchar(255), OriginCurrency TEXT, OriginValue TEXT, TargetCurrency TEXT, ConversionRate TEXT, DateTimeUTC varchar(70))");
-		}
-	
+		}	
 		  
 		db.insertConversion = (UserId,OriginCurrency, OriginValue, TargetCurrency, ConversionRate, DateTimeUTC) => {
 			const stmt = db.prepare("INSERT INTO conversions (UserId, OriginCurrency, OriginValue, TargetCurrency, ConversionRate, DateTimeUTC) VALUES (?,?,?,?,?,?)");
@@ -16,7 +15,6 @@
 			stmt.run(UserId,OriginCurrency, OriginValue, TargetCurrency, ConversionRate, DateTimeUTC);
 			
 			stmt.finalize();
-
 		}
 				
 		  db.selectConversions = () => {
