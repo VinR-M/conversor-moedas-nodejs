@@ -69,8 +69,6 @@ module.exports = (app) => {
 		} else {
 			res.sendStatus(403)
 		}
-	}
-
-	
+	}	
 
 }
