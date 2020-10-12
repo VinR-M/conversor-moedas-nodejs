@@ -18,6 +18,5 @@
     "jsonwebtoken": "^8.5.1",
     "node-fetch": "^2.6.1",
     "sqlite3": "^5.0.0"
-  },
-  "devDependencies": {"node-pre-gyp": "0.12.0"}
+  }
 }
