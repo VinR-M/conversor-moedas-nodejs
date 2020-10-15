@@ -3,6 +3,9 @@
   "version": "1.0.0",
   "description": "Voc� dever� implementar uma API Rest que seja capaz de realizar a convers�o entre duas moedas\r utilizando taxas de convers�es atualizadas de um servi�o externo.",
   "main": "app.js",
+  "engines": {
+    "node": "10.x"
+  },
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
