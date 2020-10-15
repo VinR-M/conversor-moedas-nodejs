@@ -1,7 +1,7 @@
 const express = require('express')
 const conversions = require('./routes/conversions')
 const login = require('./routes/login')
-require('dotenv/config')
+require('dotenv').config()
 
 const app = express()
 
@@ -13,4 +13,4 @@ login(app)
 conversions(app)
 
 
-app.listen(proccess.env.PORT || 3000)
+app.listen(process.env.PORT || 3000)
