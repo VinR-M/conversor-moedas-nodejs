@@ -26,7 +26,7 @@ module.exports = (app) => {
     jwt.verify(req.token, "sKey", (err, authData) => {
       if (err) res.status(403).send({ error: "User not authenticated" });
 
-      try {
+    
         const OriginCurrency = req.query.OriginCurrency;
         const TargetCurrency = req.query.TargetCurrency;
         const OriginValue = req.query.Value;
@@ -67,10 +67,12 @@ module.exports = (app) => {
             });
 
             console.log("Data saved to database.");
-          });
-      } catch {
-        res.status(400).send({ error: "Failed to convert value" });
-      }
+		  })
+		  .catch(() => { 
+			  res.status(400).send({ error: "Failed to convert value" })
+			  console.log('API fetch failed')
+			  } )        
+     
     });
   });
 
